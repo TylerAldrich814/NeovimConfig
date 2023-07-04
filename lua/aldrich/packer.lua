@@ -8,9 +8,13 @@ use {
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
 
+  -- use({
+  -- 	  'rose-pine/neovim',
+  -- 	  as = 'rose-pine',
+  -- })
+
   use({
-	  'rose-pine/neovim',
-	  as = 'rose-pine',
+    'rebelot/kanagawa.nvim'
   })
 
   use({
@@ -39,18 +43,16 @@ use {
   use('tpope/vim-fugitive')
   use('nvim-treesitter/nvim-treesitter-context')
 
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
-    end
-  }
+  use('nvim-lualine/lualine.nvim')
+  use('nvim-tree/nvim-web-devicons')
+  use('nvim-tree/nvim-tree.lua')
+  use('akinsho/bufferline.nvim')
+  use('kdheepak/tabline.nvim')
+
+	use('terrortylor/nvim-comment')
+  use('windwp/nvim-autopairs')
+
+  use("folke/which-key.nvim")
   use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v1.x',
@@ -75,7 +77,7 @@ use {
   }
 
   use('folke/zen-mode.nvim')
-  use('github/copilot.vim')
+  -- use('github/copilot.vim')
   use("eandrju/cellular-automaton.nvim")
   use('laytan/cloak.nvim')
 end)

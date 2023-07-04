@@ -19,7 +19,6 @@ vim.keymap.set("n", "<leaader>Y", [["+Y]])
 
 vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
-
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
@@ -37,6 +36,21 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 -- Open up Neovim Packer Configuration File
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/.config/nvim/lua/aldrich/packer.lua<CR>")
 
+vim.keymap.set('n', '<leader><leader>', '<cmd>:WhichKey<CR>')
+
+vim.keymap.set('n', 'u', '')
+vim.keymap.set('n', '<C-u>', '<cmd>:undo<CR>')
+vim.keymap.set('n', '<C-r>', '<cmd>:redo<CR>')
+
+-- Buffer Navigation
+vim.keymap.set('n', '<leader>k', '<cmd>:TablineBufferNext<CR>')
+vim.keymap.set('n', '<leader>j', '<cmd>:TablineBufferPrev<CR>')
+vim.keymap.set('n', '<c-k>', '<cmd>:wincmd k<CR>')
+vim.keymap.set('n', '<c-j>', '<cmd>:wincmd j<CR>')
+vim.keymap.set('n', '<c-h>', '<cmd>:wincmd h<CR>')
+vim.keymap.set('n', '<c-l>', '<cmd>:wincmd l<CR>')
+
+vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>')
 
 --vim.keymap.set("n", "<leader><leader>", function()
   --vim.cmd("so")

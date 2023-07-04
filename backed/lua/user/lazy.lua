@@ -24,7 +24,7 @@ end
 lazy.path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 lazy.opts = {}
 
--- Plugins 
+-- Plugins
 lazy.setup({
   -- ChatGPT
   {'jackMort/ChatGPT.nvim'},
@@ -58,7 +58,7 @@ lazy.setup({
 	-- Snippets
 	{'L3MON4D3/LuaSnip'},
 	{'rafamadriz/friendly-snippets'},
-	
+
 	{'akinsho/flutter-tools.nvim'},
 	{'nvim-lua/plenary.nvim'},
 	{'nvim-telescope/telescope.nvim', tag = '0.1.1',},
@@ -72,8 +72,9 @@ lazy.setup({
 	-- UndoTree
 	{'mbbill/undotree'},
 	-- Keep Cursor Centered
+  -- ps
 	{'arnamak/stay-centered.nvim'},
-	
+
 	-- Styling
 	{'folke/which-key.nvim'},
 	{'gelguy/wilder.nvim'},
@@ -86,7 +87,7 @@ lazy.setup({
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
 		end,
 	},
-  
+
   -- Github Copilot
   {'github/copilot.vim'},
 
