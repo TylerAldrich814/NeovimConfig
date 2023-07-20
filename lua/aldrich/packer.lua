@@ -17,13 +17,16 @@ use {
     'rebelot/kanagawa.nvim'
   })
 
+  -- use({
+  --   'folke/trouble.nvim',
+  --   config = function()
+  --     require("trouble").setup {
+  --       icons = false,
+  --     }
+  --   end
+  -- })
   use({
-    'folke/trouble.nvim',
-    config = function()
-      require("trouble").setup {
-        icons = false,
-      }
-    end
+    'shaunsingh/nord.nvim',
   })
 
   use {
