@@ -4,7 +4,8 @@ lsp.preset("recommended")
 
 lsp.ensure_installed({
   "tsserver",
-  "rust_analyzer"
+  "rust_analyzer",
+  "gopls"
 })
 
 lsp.nvim_workspace()
