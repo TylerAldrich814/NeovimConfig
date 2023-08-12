@@ -55,6 +55,9 @@ use {
 	use('terrortylor/nvim-comment')
   use('windwp/nvim-autopairs')
 
+  use('ggandor/leap.nvim')
+  use('tpope/vim-repeat')
+
   use("folke/which-key.nvim")
   use {
     'VonHeikemen/lsp-zero.nvim',
