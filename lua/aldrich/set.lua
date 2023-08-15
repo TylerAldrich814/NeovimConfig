@@ -15,7 +15,6 @@ vim.opt.backup = false
 --vim.opt. = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
-
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
@@ -27,3 +26,7 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 vim.opt.colorcolumn = "80"
+
+-- Close File, but leave window open
+vim.keymap.set('n', '<space>bw', ':bp<bar>sp<bar>bn<bar>bd<CR>', {silent=true})
+
