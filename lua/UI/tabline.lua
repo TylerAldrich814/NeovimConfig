@@ -1,3 +1,5 @@
+--- nvim/lua/UI/tabline.lua
+--
 require('tabline').setup({
   enable = true,
   options = {
@@ -19,3 +21,4 @@ require('tabline').setup({
     set sessionoptions+=tabpages,globals " store tabpages and globals in session
   ]]
 })
+

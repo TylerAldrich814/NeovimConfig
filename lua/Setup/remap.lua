@@ -1,5 +1,6 @@
+--- nvim/lua/Setup/remap.lua
+-- Global Neovim Kepmappings( i.e., non-plugin )
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -33,8 +34,8 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 
--- Open up Neovim Packer Configuration File
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/.config/nvim/lua/aldrich/packer.lua<CR>")
+-- Open up Lazy.lua Configuration File
+vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/Setup/lazy.lua<CR>")
 
 vim.keymap.set('n', '<leader><leader>', '<cmd>:WhichKey<CR>')
 
@@ -49,9 +50,3 @@ vim.keymap.set('n', '<c-k>', '<cmd>:wincmd k<CR>')
 vim.keymap.set('n', '<c-j>', '<cmd>:wincmd j<CR>')
 vim.keymap.set('n', '<c-h>', '<cmd>:wincmd h<CR>')
 vim.keymap.set('n', '<c-l>', '<cmd>:wincmd l<CR>')
-
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>')
-
---vim.keymap.set("n", "<leader><leader>", function()
-  --vim.cmd("so")
---end)

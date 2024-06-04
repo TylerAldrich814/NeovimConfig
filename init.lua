@@ -1,1 +1,3 @@
-require("aldrich")
+require("Setup")
+require("LSP")
+require("UI")

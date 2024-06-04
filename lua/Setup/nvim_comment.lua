@@ -1,3 +1,5 @@
+--- nvim/lua/Setup/nvim_comment.lua
+--
 local comment = require('nvim_comment')
 
 comment.setup({
@@ -10,3 +12,5 @@ comment.setup({
 	comment_chunk_text_object = '<leader>.',
 	hook = nil
 })
+
+return comment
