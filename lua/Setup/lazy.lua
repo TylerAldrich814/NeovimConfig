@@ -12,8 +12,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.runtimepath:prepend(lazypath)
+local plugins = require("Setup.PluginConfigs.plugins")
 
-require("lazy").setup("Setup.plugins", {
+require("lazy").setup(plugins, {
  defaults = { lazy = true },
  -- install = { colorscheme = { "tokyonight" } },
  checker = { enabled = true },

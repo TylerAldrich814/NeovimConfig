@@ -1,6 +1,6 @@
 --- nvim/lua/LSP/treesitter.lua
 --
 
-require("nvim-treesitter.configs").setup({
+require'nvim-treesitter.configs'.setup {
+}
 
-})

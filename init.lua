@@ -1,3 +1,4 @@
-require("Setup")
-require("LSP")
-require("UI")
+require("Setup.init")
+require("Setup.lazy")
+require("LSP.init")
+require("UI.init")
