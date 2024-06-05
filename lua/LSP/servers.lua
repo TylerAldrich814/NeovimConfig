@@ -6,7 +6,7 @@ return {
   -- jdtls  = {},
   -- cssls  = {},
   -- dockerls = {},
-  -- tsserver = {},
+  tsserver = {},
   -- eslint = {},
   -- html = {},
   -- pyright = {},

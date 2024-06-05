@@ -1,6 +1,8 @@
 --- nvim/lua/Setup/lazy.lua
 --
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local plugins = require("Setup.PluginConfigs.plugins")
+
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -12,10 +14,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.runtimepath:prepend(lazypath)
-local plugins = require("Setup.PluginConfigs.plugins")
 
 require("lazy").setup(plugins, {
- defaults = { lazy = true },
+ defaults = { lazy = false },
  -- install = { colorscheme = { "tokyonight" } },
  checker = { enabled = true },
  change_detection = {
@@ -35,6 +36,6 @@ require("lazy").setup(plugins, {
    },
   },
  },
- -- debug = true,
+ debug = true,
 })
 

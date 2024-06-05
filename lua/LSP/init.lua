@@ -13,7 +13,7 @@
     -- ○ undotree  UndotreeToggle  UndotreeHide  UndotreeFocus  UndotreeShow 
 
 require("LSP.treesitter")
-require("LSP.symbolsOutline")
+-- require("LSP.symbolsOutline")
 require("mason").setup()
 require("mason-lspconfig").setup()
 

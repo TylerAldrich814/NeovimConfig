@@ -94,7 +94,7 @@ return {
       -- enables text annotations
       --
       -- default: true
-      with_text = true,
+      mode   = 'symbol_text',
       preset = 'default',
       symbol_map = {
         Text = '',
@@ -120,7 +120,6 @@ return {
         Struct = ''
       },
     })
-
   end
 }
 

@@ -8,8 +8,8 @@
 -- Press ENTER or type command to continue
 --
 local WhichKey = require("Setup.PluginConfigs.WhichKey")
-local Telescope = require("Setup.PluginConfigs.Telescope")
 local CMP = require("Setup.PluginConfigs.cmp")
+local Telescope = require("Setup.PluginConfigs.Telescope")
 local SymbolsOutline = require("Setup.PluginConfigs.SymbolsOutline")
 
 local LSP = {
@@ -17,23 +17,6 @@ local LSP = {
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig",
-}
-
-local Telescope = {
-  "nvim-telescope/telescope.nvim",
-  cmd = { "Telescope" },
-  dependencies = {
-    { "nvim-treesitter/nvim-treesitter" },
-    { "nvim-lua/plenary.nvim" },
-    { "nvim-telescope/telescope-file-browser.nvim" },
-    { "nvim-telescope/telescope-z.nvim" },
-    { "nvim-telescope/telescope-symbols.nvim" },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-  },
-}
-
-local Utilites = {
-  "petertriho/cmp-git",
 }
 
 local UI = {
@@ -47,12 +30,12 @@ local UI = {
 
 }
 
-local Outline = {
-  "simrat39/symbols-outline.nvim",
-  cmd = "SymbolsOutline",
-  keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
-  config = true,
-}
+-- local Outline = {
+--   "simrat39/symbols-outline.nvim",
+--   cmd = "SymbolsOutline",
+--   keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+--   config = true,
+-- }
 
 local Themes = {
   {
@@ -74,15 +57,12 @@ return {
   },
   LSP,
 
-  Utilites,
   UI,
   Themes,
 
   CMP,
   Telescope,
-  Outline,
   WhichKey,
-  -- SymbolsOutline,
-  Outline
+  SymbolsOutline 
 }
 
