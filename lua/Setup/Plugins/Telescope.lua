@@ -1,4 +1,4 @@
---- nvim/lua/Setup/PluginConfigs/Telescope.lua
+--- nvim/lua/Setup/Plugins/Telescope.lua
 --
 
 return {

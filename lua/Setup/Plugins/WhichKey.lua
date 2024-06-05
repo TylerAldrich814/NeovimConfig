@@ -1,3 +1,5 @@
+--- nvim/lua/Setup/Plugins/WhichKey.lua
+--
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",

@@ -1,7 +1,7 @@
 --- nvim/lua/Setup/lazy.lua
 --
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local plugins = require("Setup.PluginConfigs.plugins")
+local plugins = require("Setup.Plugins.plugins")
 
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
