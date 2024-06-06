@@ -1,17 +1,17 @@
 --- nvim/lua/LSP/server.lua
 --
 return {
-  -- bashls = {},
+  bashls = {},
   clangd = {},
-  -- jdtls  = {},
-  -- cssls  = {},
-  -- dockerls = {},
+  jdtls  = {},
+  cssls  = {},
+  dockerls = {},
   tsserver = {},
-  -- eslint = {},
-  -- html = {},
-  -- pyright = {},
-  -- rust = {},
+  eslint = {},
+  html = {},
+  pyright = {},
+  rust_analyzer = {},
   -- luals = {},
-  -- yamlls = {},
-  -- tailwindcss = {}
+  yamlls = {},
+  tailwindcss = {}
 }

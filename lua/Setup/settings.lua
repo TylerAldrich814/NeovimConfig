@@ -3,6 +3,10 @@
 vim.opt.nu = true
 vim.opt.relativenumber = false
 
+-- enabling mousemoveevent
+vim.o.mouse = 'a'
+vim.o.clipboard = 'unnamedplus'
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   callback = function()

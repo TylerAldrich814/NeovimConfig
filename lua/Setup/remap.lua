@@ -1,7 +1,6 @@
 --- nvim/lua/Setup/remap.lua
 -- Global Neovim Kepmappings( i.e., non-plugin )
 vim.g.mapleader = " "
-
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -26,6 +25,7 @@ vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
@@ -44,9 +44,34 @@ vim.keymap.set('n', '<C-u>', '<cmd>:undo<CR>')
 vim.keymap.set('n', '<C-r>', '<cmd>:redo<CR>')
 
 -- Buffer Navigation
-vim.keymap.set('n', '<leader>k', '<cmd>:TablineBufferNext<CR>')
-vim.keymap.set('n', '<leader>j', '<cmd>:TablineBufferPrev<CR>')
+-- vim.keymap.set('n', '<leader>k', '<cmd>:TablineBufferNext<CR>')
+-- vim.keymap.set('n', '<leader>j', '<cmd>:TablineBufferPrev<CR>')
+
+-- BufferLine Commands:
+--
+-- :BufferLineCloseLeft
+-- :BufferLineCloseOthers
+-- :BufferLineCloseRigght
+-- :BufferLineCycleNext
+-- :BufferLineCyclePrev
+-- :BufferLineGoToBuffer
+-- :BufferLineMoveNext
+-- :BufferLineMovePrev
+-- :BufferLinePickClose
+-- :BufferLineSortByDirectory
+-- :BufferLineSortByExtension
+-- :BufferLineSortByRelativeDirectory
+-- :BufferLineSortByTabs
+-- :BufferLineTabRename
+-- :BufferLineTogglePin
+
 vim.keymap.set('n', '<c-k>', '<cmd>:wincmd k<CR>')
 vim.keymap.set('n', '<c-j>', '<cmd>:wincmd j<CR>')
 vim.keymap.set('n', '<c-h>', '<cmd>:wincmd h<CR>')
 vim.keymap.set('n', '<c-l>', '<cmd>:wincmd l<CR>')
+
+vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
+
+
+
+
