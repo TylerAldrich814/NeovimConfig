@@ -1,4 +1,4 @@
---- nvim/lua/Setup/remap.lua
+--> nvim/lua/Setup/remap.lua
 -- Global Neovim Kepmappings( i.e., non-plugin )
 vim.g.mapleader = " "
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -46,24 +46,6 @@ vim.keymap.set('n', '<C-r>', '<cmd>:redo<CR>')
 -- Buffer Navigation
 -- vim.keymap.set('n', '<leader>k', '<cmd>:TablineBufferNext<CR>')
 -- vim.keymap.set('n', '<leader>j', '<cmd>:TablineBufferPrev<CR>')
-
--- BufferLine Commands:
---
--- :BufferLineCloseLeft
--- :BufferLineCloseOthers
--- :BufferLineCloseRigght
--- :BufferLineCycleNext
--- :BufferLineCyclePrev
--- :BufferLineGoToBuffer
--- :BufferLineMoveNext
--- :BufferLineMovePrev
--- :BufferLinePickClose
--- :BufferLineSortByDirectory
--- :BufferLineSortByExtension
--- :BufferLineSortByRelativeDirectory
--- :BufferLineSortByTabs
--- :BufferLineTabRename
--- :BufferLineTogglePin
 
 vim.keymap.set('n', '<c-k>', '<cmd>:wincmd k<CR>')
 vim.keymap.set('n', '<c-j>', '<cmd>:wincmd j<CR>')

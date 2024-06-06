@@ -1,4 +1,4 @@
---- nvim/lua/UI/init.lua
+--> nvim/lua/UI/init.lua
 --
 require("UI.theme")
 require("UI.whichkey")

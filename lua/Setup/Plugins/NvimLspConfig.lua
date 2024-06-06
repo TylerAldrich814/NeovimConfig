@@ -1,4 +1,4 @@
--->> nvm/lua/Setuo/Plugins/NvimLspConfig.lua
+--> nvm/lua/Setuo/Plugins/NvimLspConfig.lua
 --
 return {
   "neovim/nvim-lspconfig",

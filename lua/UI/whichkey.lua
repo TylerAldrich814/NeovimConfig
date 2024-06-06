@@ -1,4 +1,4 @@
---- nvim/lua/UI/whichkey.lua
+--> nvim/lua/UI/whichkey.lua
 --
 
 local wk = require('which-key')

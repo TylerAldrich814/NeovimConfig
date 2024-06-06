@@ -1,4 +1,4 @@
---- nvim/lua/Setup/Plugins/.lua
+--- nvim/lua/Setup/Plugins/NvimComment.lua
 --
 return {
 	"terrortylor/nvim-comment",

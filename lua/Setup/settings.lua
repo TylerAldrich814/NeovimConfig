@@ -1,4 +1,4 @@
---- nvim/lua/Setup/settings.lua
+--> nvim/lua/Setup/settings.lua
 --
 vim.opt.nu = true
 vim.opt.relativenumber = false

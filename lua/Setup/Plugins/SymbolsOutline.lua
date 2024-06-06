@@ -1,4 +1,4 @@
---- nvim/lua/Setup/Plugins/SymbolsOutline.lua
+--> nvim/lua/Setup/Plugins/SymbolsOutline.lua
 --
 return {
   "simrat39/symbols-outline.nvim",

@@ -1,4 +1,4 @@
---- nvim/lua/setup/init.lua
+--> nvim/lua/setup/init.lua
 --
 require("Setup.Plugins.init")
 require("Setup.settings")

@@ -1,4 +1,5 @@
-
+--- nvim/lua/Setup/Plugins/Colorizer.lua
+--
 return {
   "NvChad/nvim-colorizer.lua", 
   

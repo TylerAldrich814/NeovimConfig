@@ -3,6 +3,7 @@
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
+    "folke/lazydev.nvim",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
@@ -20,6 +21,14 @@ return {
     require("luasnip.loaders.from_vscode").lazy_load()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+
+    cmp.opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      table.insert(opts.sources, {
+        name = "lazydev",
+        group_index = 0,
+      })
+    end
 
     cmp.setup({
       snippet = {

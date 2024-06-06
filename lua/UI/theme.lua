@@ -1,4 +1,4 @@
---- nvim/lua/Setup/theme.lua
+--> nvim/lua/Setup/theme.lua
 -- Default options:
 
 require('kanagawa').setup({
