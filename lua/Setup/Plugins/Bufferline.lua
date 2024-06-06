@@ -89,6 +89,12 @@ return {
             -- HeaderGroup(bufferline),
           },
         },
+        custom_filter = function(buf_number)
+          -- Filter out terminal buffers
+          if vim.bo[buf_number].buftype ~= "terminal" then
+            return true
+          end
+        end,
       },
     })
   end

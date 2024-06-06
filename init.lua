@@ -5,3 +5,5 @@ require("Setup.lazy")
 require("LSP.init")
 require("DAP.init")
 require("UI.init")
+
+require("Methods.terminal")

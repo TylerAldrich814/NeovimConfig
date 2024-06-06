@@ -2,3 +2,4 @@
 --
 require("DAP.lldb")
 require("DAP.python")
+require("DAP.go")
