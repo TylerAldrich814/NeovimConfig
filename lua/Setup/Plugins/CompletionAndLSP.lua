@@ -1,4 +1,4 @@
---- nvim/lua/Setup/Plugins/cmp.lua
+--- nvim/lua/Setup/Plugins/CompletionAndLSP.lua
 --
 return {
   "hrsh7th/nvim-cmp",
@@ -8,15 +8,13 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-nvim-lua",
-    {
-      "L3MON4D3/LuaSnip",
-      version = "v2.*",
-      build = "make install_jsregexp"
-    },
+    "neovim/nvim-lspconfig",
+    "L3MON4D3/LuaSnip",
     "onsails/lspkind-nvim",
     "petertriho/cmp-git"
   },
   config = function()
+    --> CMP Configuration
     require("cmp_git").setup()
     require("luasnip.loaders.from_vscode").lazy_load()
     local cmp = require("cmp")
@@ -41,9 +39,8 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       mapping = cmp.mapping.preset.insert({
-        ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-        ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
-        -- C-b (back) C-f (forward) for snippet placeholder navigation.
+        ['<C-u>'] = cmp.mapping.scroll_docs(-4), 
+        ['<C-d>'] = cmp.mapping.scroll_docs(4), 
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<CR>'] = cmp.mapping.confirm {
           behavior = cmp.ConfirmBehavior.Replace,
@@ -88,14 +85,15 @@ return {
       )
     })
 
+    --> LSP Configuration
     local capabilities = require("cmp_nvim_lsp")
       .default_capabilities(
         vim.lsp
         .protocol
         .make_client_capabilities()
       )
-    local servers = require("LSP.servers")
 
+    local servers = require("LSP.servers")
     for server, opts in pairs(servers) do
       opts.capabilities = capabilities
       require("lspconfig")[server].setup(opts)

@@ -11,7 +11,9 @@ return {
   html = {},
   pyright = {},
   rust_analyzer = {},
-  -- luals = {},
+  lua_ls = {
+
+  },
   yamlls = {},
   tailwindcss = {}
 }

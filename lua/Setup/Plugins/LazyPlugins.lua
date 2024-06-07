@@ -3,8 +3,7 @@
 local Colorizer      = require("Setup.Plugins.Colorizer")
 local AutoPairs      = require("Setup.Plugins.AutoPairs")
 local WhichKey       = require("Setup.Plugins.WhichKey")
-local CMP            = require("Setup.Plugins.CMP")
-local NvimLspConfig  = require("Setup.Plugins.NvimLspConfig")
+local CMPandLSP      = require("Setup.Plugins.CompletionAndLSP")
 local Mason          = require("Setup.Plugins.Mason")
 local NvimDAP        = require("Setup.Plugins.NvimDAP")
 local Lazydev        = require("Setup.Plugins.Lazydev")
@@ -29,14 +28,14 @@ local Themes = {
 
 return {
   "MunifTanjim/nui.nvim", -- UI Library for making popup windows
+
   Undotree,
   Mason,
   NvimDAP,
   Lazydev,
   Themes,
   Colorizer,
-  NvimLspConfig,
-  CMP,
+  CMPandLSP,
   AutoPairs,
   Bufferline,
   Telescope,
