@@ -6,4 +6,7 @@ require("LSP.init")
 require("DAP.init")
 require("UI.init")
 
-require("TA.NuiTerm")
+require("TA.NuiTerm").config({
+  -- move_left = '<C-b>',
+  -- move_right = '<C-n>',
+})
