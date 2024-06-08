@@ -81,57 +81,6 @@ local function toggle_terminal_pane(pos)
   end
   _current_term_pos = pos
 end
--- local function toggle_terminal_pane(pos)
---     local bufnr = nil
---
---     -- Check if there's an existing terminal buffer
---     for _, win in ipairs(vim.api.nvim_list_wins()) do 
---       local buf = vim.api.nvim_win_get_buf(win)
---       if vim.api.nvim_buf_get_option(buf, 'buftype') == 'terminal' then
---         bufnr = buf
---         break
---       end
---     end
---
---     if bufnr then
---       print("Removing " .. bufnr )
---       vim.api.nvim_buf_delete(bufnr, { force = true })
---       return
---     end
---
---     if not pos then 
---       print("pos is nil")
---       return 
---     end
---
---     if pos == 'LEFT' then
---       vim.cmd('vsplit')
---       vim.cmd('wincmd h')
---       vim.cmd('vertical resize 60' )
---       vim.cmd('terminal')
---       -- vim.cmd('wincmd l')
---     elseif pos == 'RIGHT' then
---       vim.cmd('vsplit')
---       vim.cmd('wincmd l')
---       vim.cmd('vertical resize 40')
---       vim.cmd('terminal')
---       -- vim.cmd('wincmd h')
---     elseif pos == 'TOP' then
---       vim.cmd('split')
---       vim.cmd('wincmd k')
---       vim.cmd('resize 10') 
---       vim.cmd('terminal')
---       -- vim.cmd('wincmd j')
---     elseif pos == 'BOTTOM' then
---       vim.cmd('split')
---       vim.cmd('wincmd j')
---       vim.cmd('resize 10')
---       vim.cmd('terminal')
---       -- vim.cmd('wincmd k')
---     end
---
---     _current_term_pos = pos
---   end
 
 
 vim.keymap.set('n', '<leader>th', function() toggle_terminal_pane('LEFT')   end, { noremap = true, silent = true })

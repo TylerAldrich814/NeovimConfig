@@ -1,9 +1,29 @@
+--> nvim/lua/methods/NUITerminal.lua
+--
 local Popup = require('nui.popup')
 local event = require('nui.utils.autocmd').event
 local autocmd = require('nui.utils.autocmd')
 
+MSG_ID = 0
+local debug_active = false
+local function DEBUG(msg)
+  if debug_active then
+    print(" - [" .. MSG_ID .. "] :: " .. msg)
+    MSG_ID = MSG_ID + 1
+  end
+end
+
+--> Forwards declarations
+local CheckActiveTerminal
+local MoveCursorDir
+local NUITerm
+
 local terminal_popup = nil
 local terminal_bufnr = nil
+
+local current_winid = function()
+  return vim.api.nvim_get_current_win()
+end
 
 local function _create_terminal_buffer(winid)
   local term_buf = vim.api.nvim_create_buf(false, true)
@@ -17,112 +37,131 @@ local function _create_terminal_buffer(winid)
   return term_buf
 end
 
-local function toggle_terminal_popup()
+function NUITerm()
   if terminal_popup and terminal_popup.winid and vim.api.nvim_win_is_valid(terminal_popup.winid) then
     -- Hide the popup
-    vim.api.nvim_win_hide(terminal_popup.winid)
+    DEBUG(" <-- MAIN NUI EXIT -->")
+    DEBUG(" <Exit>TerminalPopup.winid = " .. terminal_popup.winid)
+    -- vim.api.nvim_win_hide(terminal_popup.winid)
+    terminal_popup:hide()
+    return
+  end
+  terminal_popup = Popup({
+    position = {
+      row = "95%",
+      col = "50%",
+    },
+    size = {
+      width = "95%",
+      height = 20,
+    },
+    relative = "editor",
+    border = {
+      style = {
+        top_left    = "╭", top    = "─",    top_right = "╮",
+        left        = "│",                      right = "│",
+        bottom_left = "╰", bottom = "─", bottom_right = "╯",
+      },
+      text = {
+        top = "Terminal",
+        top_align = "center",
+      },
+    },
+    win_options = {
+      winblend = 10,
+      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+    },
+  })
+
+  --> Mount NUI Popup Window
+  terminal_popup:mount()
+  if not terminal_bufnr or not vim.api.nvim_buf_is_valid(terminal_bufnr) then
+    terminal_bufnr = _create_terminal_buffer(terminal_popup.winid)
   else
-    -- Create a new popup window for the terminal
-    -- (upvalue) Popup: NuiPopup|fun(options: nui_popup_options):NuiPopup {
-  --     border: NuiPopupBorder,
-  --     bufnr: integer,
-  --     hide: function,
-  --     init: function,
-  --     map: function,
-  --     mount: function,
-  --     ns_id: integer,
-  --     off: function <-- ,
-  --     on: function,
-  --     set_layout: function,
-  --     set_position: function,
-  --     set_size: function,
-  --     show: function,
-  --     unmap: function,
-  --     unmount: function,
-  --     update_layout: function,
-  --     win_config: { focusable: boolean, style: 'minimal', zindex: number, relative: 'cursor'|'editor'|'win', win: number, bufpos: number[], row: number, col: number, width: number, height: number, b...(too long)...SE"|"SW" },
-  --     winid: number,
-  --     _buf_create: function,
-  --     _buf_destroy: function,
-  --     _close_window: function,
-  --     _open_window: function,
-  -- }
-    terminal_popup = Popup({
-      position = {
-        row = "95%",
-        col = "50%",
-      },
-      size = {
-        width = "95%",
-        height = 20,
-      },
-      relative = "editor",
-      border = {
-        style = {
-          top_left    = "╭", top    = "─",    top_right = "╮",
-          left        = "│",                      right = "│",
-          bottom_left = "╰", bottom = "─", bottom_right = "╯",
-        },
-        text = {
-          top = "Terminal",
-          top_align = "center",
-        },
-      },
-      buf_options = {
-        modifiable = true,
-        readonly   = false,
-      },
-      win_options = {
-        winblend = 10,
-        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-      },
-    })
+    vim.api.nvim_set_current_win(terminal_popup.winid)
+    vim.api.nvim_set_current_buf(terminal_bufnr)
+  end
 
-    --> Mount Nui Popup Window
-    terminal_popup:mount()
-    if not terminal_bufnr or not vim.api.nvim_buf_is_valid(terminal_bufnr) then
-      terminal_bufnr = _create_terminal_buffer(terminal_popup.winid)
+  DEBUG(" <Creation>TerminalPopup.winid = " .. terminal_popup.winid)
+  vim.api.nvim_win_set_buf(terminal_popup.winid, terminal_bufnr)
+
+  --> Attaching <Esc> Keymapping for local terminal buffer
+  vim.api.nvim_buf_set_keymap(
+    terminal_bufnr,
+    'n',
+    '<Esc>',
+    [[<cmd>lua require('Methods.NuiTerminal').MoveCursorDir('k')<CR>]],
+    {
+      noremap = true,
+      silent = true,
+    }
+  )
+  vim.api.nvim_buf_set_keymap(
+    terminal_bufnr,
+    't',
+    '<Esc>',
+    [[<cmd>lua require('Methods.NuiTerminal').MoveCursorDir('k')<CR>]],
+    {
+      noremap = true,
+      silent = true,
+    }
+  )
+
+  vim.api.nvim_create_autocmd({"WinLeave", "BufLeave"}, {
+    buffer = terminal_bufnr,
+    callback = function()
+      if terminal_popup and terminal_popup.winid and vim.api.nvim_win_is_valid(terminal_popup.winid) then
+        DEBUG(" <autocmd>TerminalPopup.winid = " .. terminal_popup.winid)
+        vim.api.nvim_win_hide(terminal_popup.winid)
+        terminal_popup:hide()
+      end
     end
+  })
+end
 
-    --> Close the popup when leaving the window
-    vim.api.nvim_win_set_buf(terminal_popup.winid, terminal_bufnr)
+vim.keymap.set(
+  'n',
+  '<leader>tt',
+  function()
+    NUITerm()
+  end,
+  {
+    noremap = true,
+    silent  = true,
+  }
+)
 
-    autocmd.create(event.BufLeave, {
-      buffer = terminal_bufnr,
-      callback = function()
-        if terminal_popup.winid and vim.api.nvim_win_is_valid(terminal_popup.winid) then
-          vim.api.nvim_win_hide(terminal_popup.winid)
-        end
-      end
-    })
-    autocmd.create(event.WinLeave, {
-      buffer = terminal_bufnr,
-      callback = function()
-        print("WIN LEAVE")
-        if terminal_popup.winid and vim.api.nvim_win_is_valid(terminal_popup.winid) then
-          vim.api.nvim_win_hide(terminal_popup.winid)
-        end
-      end
-    })
+function CheckActiveTerminal()
+  if terminal_popup
+    and terminal_popup.winid
+    and vim.api.nvim_win_is_valid(terminal_popup.winid)
+    and current_winid() == terminal_popup.winid
+  then
+    NUITerm()
   end
 end
 
-vim.keymap.set('n', '<leader>th', function() toggle_terminal_pane('LEFT')   end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>tk', function() toggle_terminal_pane('TOP')    end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>tj', function() toggle_terminal_pane('BOTTOM') end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>tl', function() toggle_terminal_pane('RIGHT')  end, { noremap = true, silent = true })
+--> NuiTerm Keymapping functions
+function MoveCursorDir(dir)
+  CheckActiveTerminal()
+  vim.cmd("wincmd " .. dir)
+end
 
---> Terminal Convient keymappings
----- Map <Esc> to exit terminal mode and switch to normal mode
-vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
-
--- Additional mappings for convenience
-vim.api.nvim_set_keymap('t', '<C-h>', [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })  -- Move to left window
-vim.api.nvim_set_keymap('t', '<C-j>', [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })  -- Move to bottom window
-vim.api.nvim_set_keymap('t', '<C-k>', [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })  -- Move to top window
-vim.api.nvim_set_keymap('t', '<C-l>', [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })  -- Move to right window
+vim.keymap.set('n', '<c-k>', function() MoveCursorDir('k') end)
+vim.keymap.set('n', '<c-j>', function() MoveCursorDir('j') end)
+vim.keymap.set('n', '<c-h>', function() MoveCursorDir('h') end)
+vim.keymap.set('n', '<c-l>', function() MoveCursorDir('l') end)
 
 return {
-  toggle_terminal_popup = toggle_terminal_popup
+  NUITerm = NUITerm,
+  MoveCursorDir = MoveCursorDir,
+  terminal_popup = terminal_popup,
 }
+
+
+-- Additional mappings for convenience
+-- vim.api.nvim_set_keymap('t', '<C-h>', [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })  -- Move to left window
+-- vim.api.nvim_set_keymap('t', '<C-j>', [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })  -- Move to bottom window
+-- vim.api.nvim_set_keymap('t', '<C-k>', [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })  -- Move to top window
+-- vim.api.nvim_set_keymap('t', '<C-l>', [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })  -- Move to right window
 
