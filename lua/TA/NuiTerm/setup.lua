@@ -44,4 +44,5 @@ function M.setup(user_keymaps, win_config)
   vim.keymap.set('n', M.keymaps.move_right, function() M.MoveCursorDir('l') end)
 end
 
+
 return M
