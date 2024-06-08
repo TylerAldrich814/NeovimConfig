@@ -1,4 +1,5 @@
-
+--> NuiTerm/debug.lua
+--
 
 MSG_ID = 0
 local debug_active = false

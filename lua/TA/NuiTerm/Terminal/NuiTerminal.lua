@@ -63,7 +63,7 @@ function NT.NUITerm()
     TerminalBufnr,
     'n',
     '<Esc>',
-    [[<cmd>lua require('Methods.NuiTerminal').MoveCursorDir('k')<CR>]],
+    [[<cmd>lua require('TA.NuiTerm.setup').MoveCursorDir('k')<CR>]],
     {
       noremap = true,
       silent = true,
@@ -73,7 +73,7 @@ function NT.NUITerm()
     TerminalBufnr,
     't',
     '<Esc>',
-    [[<cmd>lua require('Methods.NuiTerminal').MoveCursorDir('k')<CR>]],
+    [[<cmd>lua require('TA.NuiTerm.setup').MoveCursorDir('k')<CR>]],
     {
       noremap = true,
       silent = true,
@@ -92,6 +92,16 @@ function NT.NUITerm()
   })
 end
 
+function NT.CheckActiveTerminal()
+  if TerminalPopup
+    and TerminalPopup.winid
+    and vim.api.nvim_win_is_valid(TerminalPopup.winid)
+    and current_winid() == TerminalPopup.winid
+  then
+    NT.NUITerm()
+  end
+end
+
 vim.keymap.set(
   'n',
   setup.keyMaps.term_toggle,
@@ -103,15 +113,5 @@ vim.keymap.set(
     silent  = true,
   }
 )
-
-function NT.CheckActiveTerminal()
-  if TerminalPopup
-    and TerminalPopup.winid
-    and vim.api.nvim_win_is_valid(TerminalPopup.winid)
-    and current_winid() == TerminalPopup.winid
-  then
-    NT.NUITerm()
-  end
-end
 
 return NT

@@ -1,10 +1,14 @@
 --> NuiTerm/init.lua
 --
+local setup = require("TA.NuiTerm.setup")
+local term = require("TA.NuiTerm.Terminal.NuiTerminal")
+
 local M = {}
 
-M.config = require("TA.NuiTerm.setup").setup
-M.NUITerm = require("TA.NuiTerm.Terminal.NuiTerminal").NuiTerm
-M.CheckActiveTerminal = require('TA.NuiTerm.Terminal.NuiTerminal').CheckActiveTerminal
-M.MoveCursorDir = require('TA.NuiTerm.Terminal.NuiTerminal').MoveCursorDir
+M.config = setup.setup
+M.MoveCursorDir = setup.MoveCursorDir
+M.NUITerm = term.NUITerm
+M.CheckActiveTerminal = term.CheckActiveTerminal
 
 return M
+

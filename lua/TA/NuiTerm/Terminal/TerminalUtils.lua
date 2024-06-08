@@ -1,4 +1,5 @@
-
+--> NuiTerm/Terminal/TerminalUtils.lua
+--
 local M = {}
 
 M.TerminalPopup = nil
@@ -10,7 +11,7 @@ function M.CreateTerminalBuffer(winid)
   vim.api.nvim_set_current_buf(term_buf)
   vim.fn.termopen(vim.o.shell, {
     on_exit = function()
-      vim.api.nvim_buf_delete(M.TerminalBufnr, { force = true })
+      vim.api.nvim_buf_delete(term_buf, { force = true })
     end
   })
   return term_buf
@@ -24,3 +25,4 @@ function M.CheckActiveTerminal()
 end
 
 return M
+
