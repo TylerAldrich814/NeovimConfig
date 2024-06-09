@@ -29,32 +29,3 @@ function M.setup(user_keymaps, win_config)
 end
 
 return M
-
--- M.MainWindow = require('TA.NuiTerm.Terminal.window').MainWindow
-
--- function CheckActiveTerminal()
---   if TerminalPopup
---     and TerminalPopup.winid
---     and vim.api.nvim_win_is_valid(TerminalPopup.winid)
---     and current_winid() == TerminalPopup.winid
---   then
---     NT.NUITerm()
---   end
--- end
-
--- local function CheckActiveTerminal()
---   return require("TA.NuiTerm.Terminal.NuiTerminal").CheckActiveTerminal()
---   -- return require("TA.NuiTerm.Terminal.window").
---   -- M.MainWindow:Toggle()
--- end
-
--- function M.MoveCursorDir(dir)
---   CheckActiveTerminal()
---   vim.cmd("wincmd " .. dir)
--- end
-
--- vim.keymap.set('n', M.keyMaps.move_up,    function() M.MoveCursorDir('k') end)
--- vim.keymap.set('n', M.keyMaps.move_down,  function() M.MoveCursorDir('j') end)
--- vim.keymap.set('n', M.keyMaps.move_left,  function() M.MoveCursorDir('h') end)
--- vim.keymap.set('n', M.keyMaps.move_right, function() M.MoveCursorDir('l') end)
-

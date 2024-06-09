@@ -1,84 +1,27 @@
 --> NuiTerm/Terminal/window.lua
 --
+local Debug = require("TA.NuiTerm.debug").DEBUG
 local setup = require("TA.NuiTerm.setup")
 local Popup = require("nui.popup")
+local Layout = require("nui.layout")
 
-local TermWindow = {
-  bufnr     = nil,
-  winid     = nil,
-  termId    = nil,
-  name      = "Terminal",
-  autocmdID = nil,
-}
+local winConfig = setup.winConfig
+vim.cmd([[
+  highlight MyBorderNormal guifg=#ffffff guibg=#000000
+  highlight MyBorderInsert guifg=#00ff00 guibg=#000000
+  highlight MyBorderVisual guifg=#ff0000 guibg=#000000
+]])
 
-
-function TermWindow:MountBindings(winId, hideCb)
-  self.autocmdID = vim.api.nvim_create_autocmd({"WinLeave", "BufLeave"}, {
-    buffer = self.bufnr,
-    callback = function()
-      if winId and vim.api.nvim_win_is_valid(winId) then
-        vim.api.nvim_win_hide(winId)
-        hideCb()
-      end
-    end
-  })
-end
-
-function TermWindow:UnmountBindings()
-  vim.api.nvim_del_autocmd(self.autocmdID)
-end
-
-function TermWindow:Initialize(termId, winId, hideCb)
-  self.termId = termId
-  self.winid = winId
-  local bufnr  = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_set_current_win(winId)
-  vim.api.nvim_set_current_buf(bufnr)
-
-  vim.fn.termopen(vim.o.shell, {
-    on_exit = function()
-      vim.api.nvim_buf_delete(bufnr, { force = true })
-    end
-  })
-  self.bufnr = bufnr
-  self:MountBindings(winId, hideCb)
-  return self
-end
-
-
-local MainWindow = {
- window      = nil,
- initialized = false,
- showing     = false,
- termWindows = {},
- totalTerms  = 0,
- currentTerm = 0,
-}
-
-function MainWindow:new()
-  return self
-end
-
-function MainWindow:GetCurrentTerm()
-  return self.termWindows[self.currentTerm]
-end
-function MainWindow:GetWinId()
-  return self.window.winid
-end
-
-function MainWindow:Create()
-  if self.initialized then
-    return self:Show()
-  end
-  local winConfig = setup.winConfig
-  self.window = Popup({
-    position = winConfig.position,
-    size     = winConfig.size,
+function PopupWindow(bufnr, color)
+  local window = Popup({
+    bufnr = 0,
     relative = 'editor',
+    size = winConfig.size,
+    position = winConfig.position,
     border = {
       style = {
-        top_left    = "╭", top    = "─",    top_right = "╮",
-        left        = "│",                      right = "│",
+        top_left = "╭", top = "─", top_right = "╮",
+        left = "│", right = "│",
         bottom_left = "╰", bottom = "─", bottom_right = "╯",
       },
       text = {
@@ -87,82 +30,219 @@ function MainWindow:Create()
       },
     },
     win_options = {
-      winblend = 90,
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+      winblend = 100,
+      winhighlight = "Normal:Normal,FloatBorder:" .. color,
     },
   })
-  self.window:mount()
-  self:CreateTerm()
-  MainWindow:Show()
+  return window
 end
+
+function GetMode()
+  return vim.api.nvim_get_mode().mode
+end
+
+local TermWindow = {
+  bufnr = nil,
+  winid = nil,
+  termid = nil,
+  name = "Terminal",
+  autocmdID = nil,
+}
+
+function TermWindow:Initialize(termid, winid, onHide)
+  self.termid = termid
+  self.winid = winid
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_set_current_win(winid)
+  vim.bo[bufnr].bufhidden = "wipe"
+  vim.api.nvim_set_current_buf(bufnr)
+  vim.fn.termopen(vim.o.shell, {
+    on_exit = function()
+      vim.api.nvim_buf_delete(bufnr, { force=true })
+    end
+  })
+  self.bufnr = bufnr
+  self:MountBindings(winid, onHide)
+  return self
+end
+function TermWindow:CheckWinId(winid)
+  if self.winid ~= winid then
+    self.winid = winid
+  end
+end
+
+function TermWindow:MountBindings(winid, onHide)
+  self.autocmdID = vim.api.nvim_create_autocmd({"WinLeave"}, {
+    buffer = self.bufnr,
+    callback = function()
+      if winid and vim.api.nvim_win_is_valid(winid) then
+        vim.api.nvim_win_hide(winid)
+        onHide()
+      end
+    end
+  })
+  vim.api.nvim_buf_set_keymap(
+    self.bufnr,
+    't',
+    '<Esc>',
+    [[<cmd>lua require('TA.NuiTerm').window:NormMode()<CR>]],
+    {
+      noremap = true,
+      silent = true,
+    }
+  )
+  vim.api.nvim_buf_set_keymap(
+    self.bufnr,
+    'n',
+    'i',
+    [[<cmd>lua require('TA.NuiTerm').window:TermMode()<CR>]],
+    {
+      noremap = true,
+      silent = true,
+    }
+  )
+  vim.api.nvim_buf_set_keymap(
+    self.bufnr,
+    'n',
+    '<Esc>',
+    [[<cmd>lua require('TA.NuiTerm').window:Hide()<CR>]],
+    {
+      noremap = true,
+      silent = true,
+    }
+  )
+end
+
+local MainWindow = {
+  -- window = nil,
+  layout = nil,
+  winid = nil,
+  intialized = false,
+  showing    = false,
+  termWindows = {},
+  totalTerms = 0,
+  currentTerm = 0,
+}
+function MainWindow:new() return self end
 
 function MainWindow:CreateTerm()
-  if not self.window or not self.window.winid or not vim.api.nvim_win_is_valid(self.window.winid) then
+  if not self.layout or not self.layout.winid or not vim.api.nvim_win_is_valid(self.layout.winid) then
     return
   end
-  local termid = self.totalTerms
-  local newTerm = TermWindow:Initialize(termid, self.window.winid, function() self:Hide() end)
-  newTerm:MountBindings()
-  self.termWindows[termid] = newTerm
-  self.totalTerms = termid+1
+  local termid = self.currentTerm
+  local newTerm = TermWindow:Initialize(termid, self.winid, function() self:Hide() end)
 
-  for _, mode in ipairs({'n', 't'}) do
-    vim.api.nvim_buf_set_keymap(
-      newTerm.bufnr,
-      mode,
-      '<Esc>',
-      [[<cmd>lua require('TA.NuiTerm').window:Toggle()<CR>]],
-      {
-        noremap = true,
-        silent  = true,
-      }
-    )
-  end
+  self.termWindows[termid] = newTerm
+  self.totalTerms = termid + 1
 end
 
+function MainWindow:GetCurrentTerm()
+  return self.termWindows[self.currentTerm]
+end
 
-function MainWindow:Show()
-  self.window:show()
-  local currentTerm = self:GetCurrentTerm()
-  vim.api.nvim_set_current_win(self.window.winid)
-  vim.api.nvim_set_current_buf(currentTerm.bufnr)
+function MainWindow:TermMode()
+  self:Hide()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, true, true), 'n', true)
+  self:Show("MyBorderVisual")
+end
 
-  vim.api.nvim_win_set_buf(self:GetWinId(), currentTerm.bufnr)
-  vim.cmd('startinsert')
-  self.showing = true
+function MainWindow:NormMode()
+  self:Hide()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, true, true), 'n', true)
+  self:Show("MyBorderNormal")
+end
 
-  if not self.initialized then
-    print("Initialize = true")
-    self.initialized = true
-  else
-    print("REMOUNTING -- " )
-    for id, term in pairs(self.termWindows) do
-      print("MountBindings "..id)
-      term:MountBindings(self.window.winid, function() self:Hide() end)
-    end
+function MainWindow:Show(color)
+  if not color then
+    color = "MyBorderNormal"
   end
+  local win = vim.api.nvim_open_win(0, false,
+       {relative='win', row=3, col=3, width=12, height=3})
+
+  local window = PopupWindow(color, win)
+  local layout = Layout({
+    position = winConfig.position,
+    size = winConfig.size,
+  }, Layout.Box({
+    Layout.Box(window, { dir = "row", size = "100%" })
+  }, { dir = "row", size = "100%"}))
+
+  layout:mount()
+  self.layout = layout
+  self.winid = window.winid
+
+  local currentTerm = self:GetCurrentTerm()
+  if not currentTerm then
+    self:CreateTerm()
+    currentTerm = self:GetCurrentTerm()
+  else
+    currentTerm:MountBindings(self.winid, function() self:Hide() end)
+    currentTerm:CheckWinId(self.winid) -- Safety -- make sure winid's match
+  end
+  vim.api.nvim_set_current_win(self.winid)
+  vim.api.nvim_set_current_buf(currentTerm.bufnr)
+  vim.api.nvim_win_set_buf(self.winid, currentTerm.bufnr)
 end
 
 function MainWindow:Hide()
-  self.window:hide()
-  self.showing = false
+    self.layout:hide()
+    self.showing = false
 end
 
+local function GetTermSize()
+  local width = vim.o.columns
+  local height = vim.o.lines
+  return width, height
+end
+
+-- Function to create a floating terminal window
+local function create_floating_terminal_window()
+  -- Create a new buffer
+  local bufnr = vim.api.nvim_create_buf(false, true)
+
+  -- Set buffer options
+  vim.bo[bufnr].bufhidden = "wipe"
+
+  local width,height = GetTermSize()
+
+  -- Define the window configuration
+  local win_config = {
+    relative = "editor",
+    width = width,
+    height = 20,
+    row = height,
+    col = 0,
+    style = "minimal",
+    border = "rounded",
+  }
+
+  -- Create the floating window
+  local win_id = vim.api.nvim_open_win(bufnr, true, win_config)
+
+  -- Open a terminal in the buffer
+  vim.fn.termopen(vim.o.shell, {
+    on_exit = function()
+      vim.api.nvim_buf_delete(bufnr, { force = true })
+    end,
+  })
+
+  -- Return the window ID and buffer number
+  return win_id, bufnr
+end
+
+
 function MainWindow:Toggle()
-  if not self.initialized  then
-    print("CREATE")
-    self:Create()
-    return
-  end
-  if self.showing then
-    print("HIDE")
-    self:Hide()
-  else
-    print("SHOW")
-    self:Show()
-  end
+  create_floating_terminal_window()
+  -- if self.showing then Debug("  SHOWING  ") else Debug(" NOTSHOWING ") end
+  -- if not self.showing then
+  --   self:Show()
+  --   self.showing = true
+  -- else
+  --   self:Hide()
+  --   self.showing = false
+  -- end
 end
 
 return {
-  MainWindow = MainWindow
+  MainWindow = MainWindow,
 }
