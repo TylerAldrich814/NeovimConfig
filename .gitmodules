@@ -1,3 +1,6 @@
 [submodule "lazy/lazy.nvim"]
 	path = lazy/lazy.nvim
 	url = https://github.com/folke/lazy.nvim.git
+[submodule "dev/NuiTerm.nvim"]
+	path = dev/NuiTerm.nvim
+	url = https://github.com/TylerAldrich814/NuiTerm.nvim.git

@@ -22,13 +22,16 @@ require("lazy").setup(plugins, {
  change_detection = {
   notify = false,
  },
+ dev = {
+   path = "~/.config/nvim/dev"
+ },
  performance = {
   rtp = {
    disabled_plugins = {
     "gzip",
     "matchit",
     "matchparen",
-    "netrwPlugin",
+    -- "netrwPlugin",
     "tarPlugin",
     "tutor",
     "tohtml",

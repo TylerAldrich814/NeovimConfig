@@ -12,9 +12,8 @@ vim.cmd([[
   highlight MyBorderVisual guifg=#ff0000 guibg=#000000
 ]])
 
-function PopupWindow(bufnr, color)
+function oldPopupWindow(color)
   local window = Popup({
-    bufnr = 0,
     relative = 'editor',
     size = winConfig.size,
     position = winConfig.position,
@@ -35,6 +34,38 @@ function PopupWindow(bufnr, color)
     },
   })
   return window
+end
+
+local function GetTermSize()
+  local width = vim.o.columns
+  local height = vim.o.lines
+  return width, height
+end
+
+function PopupWindow(color)
+  -- Create a new buffer
+  local bufnr = vim.api.nvim_create_buf(false, true)
+
+  -- Set buffer options
+  vim.bo[bufnr].bufhidden = "wipe"
+
+  local width,height = GetTermSize()
+
+  -- Define the window configuration
+  local win_config = {
+    relative = "editor",
+    width = width,
+    height = 20,
+    row = height,
+    col = 0,
+    style = "minimal",
+    border = "rounded",
+  }
+
+  -- Create the floating window
+  local win_id = vim.api.nvim_open_win(bufnr, true, win_config)
+
+  return bufnr, win_id
 end
 
 function GetMode()
@@ -140,6 +171,7 @@ function MainWindow:GetCurrentTerm()
   return self.termWindows[self.currentTerm]
 end
 
+
 function MainWindow:TermMode()
   self:Hide()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i", true, true, true), 'n', true)
@@ -152,14 +184,13 @@ function MainWindow:NormMode()
   self:Show("MyBorderNormal")
 end
 
+
 function MainWindow:Show(color)
   if not color then
     color = "MyBorderNormal"
   end
-  local win = vim.api.nvim_open_win(0, false,
-       {relative='win', row=3, col=3, width=12, height=3})
 
-  local window = PopupWindow(color, win)
+  local window = oldPopupWindow(color)
   local layout = Layout({
     position = winConfig.position,
     size = winConfig.size,
@@ -185,15 +216,10 @@ function MainWindow:Show(color)
 end
 
 function MainWindow:Hide()
-    self.layout:hide()
+    -- self.layout:hide()
     self.showing = false
 end
 
-local function GetTermSize()
-  local width = vim.o.columns
-  local height = vim.o.lines
-  return width, height
-end
 
 -- Function to create a floating terminal window
 local function create_floating_terminal_window()
@@ -232,15 +258,15 @@ end
 
 
 function MainWindow:Toggle()
-  create_floating_terminal_window()
-  -- if self.showing then Debug("  SHOWING  ") else Debug(" NOTSHOWING ") end
-  -- if not self.showing then
-  --   self:Show()
-  --   self.showing = true
-  -- else
-  --   self:Hide()
-  --   self.showing = false
-  -- end
+  -- create_floating_terminal_window()
+  if self.showing then Debug("  SHOWING  ") else Debug(" NOTSHOWING ") end
+  if not self.showing then
+    self:Show()
+    self.showing = true
+  else
+    self:Hide()
+    self.showing = false
+  end
 end
 
 return {

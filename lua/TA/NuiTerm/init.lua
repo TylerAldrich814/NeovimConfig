@@ -2,19 +2,19 @@
 --
 local setup    = require("TA.NuiTerm.setup")
 local termUtil = require("TA.NuiTerm.Terminal.TerminalUtils")
-local window   = require("TA.NuiTerm.Terminal.window")
+-- local window   = require("TA.NuiTerm.Terminal.window")
+local window   = require("TA.NuiTerm.Terminal.win")
 
 local M = {}
 
 M.config              = setup.setup
 M.CheckActiveTerminal = termUtil.CheckActiveTerminal
 
-M.window = window.MainWindow:new()
+M.window = window.MainWindow:New()
 
 function M.MoveCursorDir(dir)
   vim.cmd('wincmd ' .. dir)
 end
-
 
 vim.keymap.set('n', setup.keyMaps.move_up,    function() M.MoveCursorDir('k') end)
 vim.keymap.set('n', setup.keyMaps.move_down,  function() M.MoveCursorDir('j') end)

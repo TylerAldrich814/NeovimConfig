@@ -3,6 +3,7 @@
 return {
   bashls = {},
   clangd = {},
+  cmake = {},
   jdtls  = {},
   cssls  = {},
   dockerls = {},
