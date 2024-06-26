@@ -2,13 +2,27 @@
 --
 
 local wk = require('which-key')
+local util = require('Methods.utility')
 
-vim.keymap.set('n', '<leader>e', "<cmd>lua require('Methods.Utility').TreeToggle()<cr>")
+vim.keymap.set('n', '<leader>e', '', {
+  noremap=true,
+  silent=true,
+  callback=function()
+    util.TreeToggle()
+  end
+})
+vim.keymap.set('n', '<leader>ts', '', {
+  noremap=true,
+  silent=true,
+  callback=function()
+    util.ToggleSplit()
+  end
+})
 vim.keymap.set('n', '<leader>sv', '<cmd>vsplit<cr>', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sh', '<cmd>split<cr>', { noremap = true, silent = true })
 
 -- vim.keymap.set('n', "<leader>ts', '<cmd>lua require('Methods.Utility').ToggleSplit()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>ts', "<cmd>lua require('Methods.Utility').ToggleSplit()<cr>")
+--vim.keymap.set('n', '<leader>ts', "<cmd>lua require('Methods.Utility').ToggleSplit()<cr>")
 
 vim.keymap.set('n', '-', "<cmd>resize -1<CR>")
 vim.keymap.set('n', '_', "<cmd>vertical resize +1<CR>")

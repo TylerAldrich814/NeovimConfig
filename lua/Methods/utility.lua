@@ -22,14 +22,14 @@ M.bufferline_goto_buffer = function()
 end
 
 
-isOpen = false;
+local isOpen = false;
 -->> Toggles NvimTree -- I created this toggle in order to use 'NvimTreeFindFile'
 -->> that way the cursor will automatically go to the buffer/file that's currently loaded.
 M.TreeToggle = function()
   if isOpen  then
     vim.cmd("NvimTreeClose")
     isOpen = false
-  else 
+  else
     vim.cmd("NvimTreeFindFile")
     isOpen = true
   end

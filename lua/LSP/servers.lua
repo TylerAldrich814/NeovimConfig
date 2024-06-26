@@ -16,5 +16,6 @@ return {
 
   },
   yamlls = {},
-  tailwindcss = {}
+  tailwindcss = {},
+  docker_compose_language_service = {}
 }
