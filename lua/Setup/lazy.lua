@@ -18,7 +18,7 @@ vim.opt.runtimepath:prepend(lazypath)
 require("lazy").setup(plugins, {
  defaults = { lazy = false },
  -- install = { colorscheme = { "tokyonight" } },
- checker = { enabled = false },
+ -- checker = { enabled = false },
  change_detection = {
   notify = false,
  },
@@ -26,18 +26,18 @@ require("lazy").setup(plugins, {
    path = "~/.config/nvim/dev"
  },
  performance = {
-  rtp = {
-   disabled_plugins = {
-    "gzip",
-    "matchit",
-    "matchparen",
+  -- rtp = {
+   -- disabled_plugins = {
+    -- "gzip",
+    -- "matchit",
+    -- "matchparen",
     -- "netrwPlugin",
-    "tarPlugin",
-    "tutor",
-    "tohtml",
-    "zipPlugin",
-   },
-  },
+    -- "tarPlugin",
+    -- "tutor",
+    -- "tohtml",
+    -- "zipPlugin",
+  --  },
+ --  },
  },
  debug = true,
 })

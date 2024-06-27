@@ -17,6 +17,13 @@ local Lualine         = require("Setup.Plugins.Lualine")
 local Undotree        = require("Setup.Plugins.Undotree")
 local Oil             = require("Setup.Plugins.oil")
 
+local DAPPython = {
+  "mfussenegger/nvim-dap-python",
+  config = function()
+    require("dap-python").setup("python")
+  end
+};
+
 local Themes = {
   {
     "rebelot/kanagawa.nvim", event = "VeryLazy"
@@ -69,6 +76,7 @@ return {
   Undotree,
   Mason,
   NvimDAP,
+  DAPPython,
   Lazydev,
   Themes,
   Colorizer,
