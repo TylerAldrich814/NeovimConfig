@@ -15,7 +15,7 @@ local Nvimtree        = require("Setup.Plugins.Nvimtree")
 local Bufferline      = require("Setup.Plugins.Bufferline");
 local Lualine         = require("Setup.Plugins.Lualine")
 local Undotree        = require("Setup.Plugins.Undotree")
-local Oil             = require("Setup.Plugins.oil")
+local Oil             = require("Setup.Plugins.Oil")
 
 local DAPPython = {
   "mfussenegger/nvim-dap-python",

@@ -9,11 +9,23 @@ local dap = require("dap")
 --       WARN
 --       ERROR
 
+local function get_lldb()
+  local os_name = vim.loop.os_uname().sysname
+  if os_name == "Linux" then
+    return "/usr/bin/lldb"
+  elseif os_name == "Darwin" then
+    return "/opt/homebrew/opt/llvm/bin/lldb-dap"
+  else
+    error("Unknown operating System.", 1)
+  end
+end
+get_lldb()
+
 dap.set_log_level('ERROR')
 
 dap.adapters.lldb = {
   type    = "executable",
-  command = "/opt/homebrew/opt/llvm/bin/lldb-dap", 
+  command = get_lldb(),
   name    = "lldb"
 }
 
