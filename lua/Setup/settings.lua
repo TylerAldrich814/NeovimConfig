@@ -1,13 +1,21 @@
 --> nvim/lua/Setup/settings.lua
 --
+local opt = vim.opt
+local api = vim.api
+local o = vim.o
+
 vim.opt.nu = true
 vim.opt.relativenumber = false
 
--- enabling mousemoveevent
-vim.o.mouse = 'a'
-vim.o.clipboard = 'unnamedplus'
+--> Background
+opt.termguicolors = true
+api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
 
-vim.api.nvim_create_autocmd("FileType", {
+-- enabling mousemoveevent
+o.mouse = 'a'
+o.clipboard = 'unnamedplus'
+
+api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   callback = function()
     vim.opt_local.shiftwidth = 2
@@ -16,44 +24,28 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.opt.tabstop     = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth  = 2
-vim.opt.expandtab   = true
+opt.tabstop     = 2
+opt.softtabstop = 2
+opt.shiftwidth  = 2
+opt.expandtab   = true
 
-vim.opt.smartindent = true
-vim.opt.wrap = false
+opt.smartindent = true
+opt.wrap = false
 
-vim.opt.swapfile = false
-vim.opt.backup   = false
-vim.opt.undofile = true
+opt.swapfile = false
+opt.backup   = false
+opt.undofile = true
 
-vim.opt.termguicolors = true
+opt.hlsearch = false
+opt.incsearch = true
 
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
+opt.scrolloff = 8
+opt.signcolumn = "yes"
+opt.isfname:append("@-@")
 
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
-
-vim.opt.updatetime = 50
---vim.opt.colorcolumn = "80"
+opt.updatetime = 50
 
 -- Close File, but leave window open
 vim.keymap.set('n', '<space>bw', ':bp<bar>sp<bar>bn<bar>bd<CR>', {silent=true})
-
--- require('nord').set({
-  -- disable_background_color = true
--- })
---vim.cmd("colorscheme kanagawa")
-
-function ColorMyPencils( color )
-  color = color or "kanagawa"
-  vim.cmd.colorscheme(color)
-
-  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-end
 
 -- ColorMyPencils()

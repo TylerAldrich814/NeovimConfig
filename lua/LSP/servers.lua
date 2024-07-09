@@ -7,6 +7,7 @@ return {
   jdtls  = {},
   cssls  = {},
   dockerls = {},
+  gopls = {},
   tsserver = {},
   eslint = {},
   html = {},
@@ -17,5 +18,6 @@ return {
   },
   yamlls = {},
   tailwindcss = {},
-  docker_compose_language_service = {}
+  docker_compose_language_service = {},
+  sqlls = {}
 }

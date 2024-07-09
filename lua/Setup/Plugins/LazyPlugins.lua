@@ -16,6 +16,7 @@ local Bufferline      = require("Setup.Plugins.Bufferline");
 local Lualine         = require("Setup.Plugins.Lualine")
 local Undotree        = require("Setup.Plugins.Undotree")
 local Oil             = require("Setup.Plugins.Oil")
+local Theme           = require("Setup.Plugins.Theme")
 
 local DAPPython = {
   "mfussenegger/nvim-dap-python",
@@ -34,43 +35,48 @@ local Themes = {
     event = "VeryLazy",
   },
 }
+
+local Just = {
+  "NoahTheDuke/vim-just",
+  ft = { "just" }
+}
+
 return {
   "MunifTanjim/nui.nvim", -- UI Library for making popup windows
 
-  {
-    -- dir = "~/.config/nvim/dev/NUITerm.nvim",
-
-    "NUITerm.nvim",
-    dev = true,
-    dependencies = {
-      "kkharji/sqlite.lua"
-    },
-    config = function()
-      require('NuiTerm').setup({
-        nuiterm_db = {
-          storage_location = nil,
-          auto_save = false,
-        },
-        win_config = {
-          width = "5/6",
-          height = 30,
-          position = "bottom",
-        },
-        user_keymaps = {
-          change_mode    = "<Esc>",
-          nuiterm_toggle = "<leader>tt",
-          new_term       = "<leader>tn",
-          next_term      = "<leader>tk",
-          prev_term      = "<leader>tj",
-          close_term     = "<leader>tq",
-          term_resize    = {
-            expand = { cmd = "<C-p>", amt =  1 },
-            shrink = { cmd = "<C-o>", amt = -1 }
-          },
-        }
-      })
-    end
-  },
+  -- { // You need to fix Resizing before you reinable this..
+  --   -- dir = "~/.config/nvim/dev/NUITerm.nvim",
+  --   "NUITerm.nvim",
+  --   dev = true,
+  --   dependencies = {
+  --     "kkharji/sqlite.lua"
+  --   },
+  --   config = function()
+  --     require('NuiTerm').setup({
+  --       nuiterm_db = {
+  --         storage_location = nil,
+  --         auto_save = false,
+  --       },
+  --       win_config = {
+  --         width = "5/6",
+  --         height = 30,
+  --         position = "bottom",
+  --       },
+  --       user_keymaps = {
+  --         change_mode    = "<Esc>",
+  --         nuiterm_toggle = "<leader>tt",
+  --         new_term       = "<leader>tn",
+  --         next_term      = "<leader>tk",
+  --         prev_term      = "<leader>tj",
+  --         close_term     = "<leader>tq",
+  --         term_resize    = {
+  --           expand = { cmd = "<C-p>", amt =  1 },
+  --           shrink = { cmd = "<C-o>", amt = -1 }
+  --         },
+  --       }
+  --     })
+  --   end
+  -- },
 
   IndentBlankLine,
   Undotree,
@@ -78,7 +84,7 @@ return {
   NvimDAP,
   DAPPython,
   Lazydev,
-  Themes,
+  -- Themes,
   Colorizer,
   CMPandLSP,
   AutoPairs,
@@ -89,6 +95,8 @@ return {
   Lualine,
   SymbolsOutline,
   Oil,
+  Just,
   WhichKey,
+  Theme
 }
 
